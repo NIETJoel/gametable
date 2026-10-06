@@ -1,5 +1,6 @@
 <?php
 // Bovenkant van elke pagina met de navigatie. Zet $paginatitel vóór het laden van dit bestand.
+$ingelogd = huidige_gebruiker();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -15,6 +16,16 @@
         <a class="logo" href="<?= e(url('index.php')) ?>">GameTable</a>
         <nav class="menu" aria-label="Hoofdmenu">
             <a href="<?= e(url('index.php')) ?>">Toernooien</a>
+            <?php if ($ingelogd === null): ?>
+                <a href="<?= e(url('inloggen.php')) ?>">Inloggen</a>
+                <a href="<?= e(url('registreren.php')) ?>">Registreren</a>
+            <?php else: ?>
+                <a href="<?= e(url('profiel.php')) ?>">Profiel (<?= e($ingelogd['spelersnaam']) ?>)</a>
+                <form method="post" action="<?= e(url('uitloggen.php')) ?>" class="inline-form">
+                    <?= csrf_veld() ?>
+                    <button type="submit" class="link-knop">Uitloggen</button>
+                </form>
+            <?php endif; ?>
         </nav>
     </div>
 </header>

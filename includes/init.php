@@ -19,6 +19,7 @@ session_start();
 
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/functies.php';
+require_once __DIR__ . '/auth.php';
 
 // Output eerst bufferen, zodat bij een fout een nette foutpagina getoond kan worden.
 ob_start();
