@@ -1,0 +1,161 @@
+/* GameTable - eenvoudige, responsive opmaak (RV-02) */
+
+:root {
+    --kleur-primair: #2f5d50;
+    --kleur-primair-donker: #234539;
+    --kleur-accent: #e0a526;
+    --kleur-tekst: #1f2a27;
+    --kleur-grijs: #6b7672;
+    --kleur-rand: #d9dfdc;
+    --kleur-achtergrond: #f5f7f6;
+    --kleur-wit: #ffffff;
+    --kleur-succes: #e3f4e8;
+    --kleur-succes-tekst: #1d6b35;
+    --kleur-fout: #fbe7e6;
+    --kleur-fout-tekst: #a12a22;
+    --kleur-info: #e7f0fb;
+    --kleur-info-tekst: #1f4f8a;
+    --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--kleur-tekst);
+    background: var(--kleur-achtergrond);
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+main.container { padding-top: 24px; padding-bottom: 48px; min-height: 70vh; }
+
+a { color: var(--kleur-primair); }
+h1 { margin-top: 0; }
+h1 small { font-size: 0.6em; color: var(--kleur-grijs); font-weight: normal; }
+
+/* ---------- Header en menu ---------- */
+.site-header { background: var(--kleur-primair); color: var(--kleur-wit); }
+.header-inhoud { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; padding-bottom: 12px; }
+.logo { color: var(--kleur-wit); font-size: 1.4rem; font-weight: bold; text-decoration: none; }
+.menu { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.menu a, .menu .link-knop { color: var(--kleur-wit); text-decoration: none; }
+.menu a:hover, .menu .link-knop:hover { text-decoration: underline; }
+
+.site-footer { padding: 16px 0; color: var(--kleur-grijs); font-size: 0.9rem; border-top: 1px solid var(--kleur-rand); }
+
+/* ---------- Knoppen ---------- */
+.knop {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--kleur-primair);
+    color: var(--kleur-wit);
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+.knop:hover { background: var(--kleur-primair-donker); }
+.knop:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible {
+    outline: 3px solid var(--kleur-accent);
+    outline-offset: 2px;
+}
+.knop:disabled { background: var(--kleur-grijs); cursor: not-allowed; }
+.knop-licht { background: var(--kleur-rand); color: var(--kleur-tekst); }
+.knop-licht:hover { background: #c7cfcb; }
+.knop-klein { padding: 4px 10px; font-size: 0.9rem; }
+
+.link-knop { background: none; border: 0; padding: 0; font: inherit; color: var(--kleur-primair); text-decoration: underline; cursor: pointer; }
+.link-gevaar { color: var(--kleur-fout-tekst); }
+
+.inline-form { display: inline; }
+
+/* ---------- Meldingen (FE15) ---------- */
+.melding { padding: 12px 16px; margin-bottom: 16px; border-radius: var(--radius); border-left: 5px solid; }
+.melding-succes { background: var(--kleur-succes); color: var(--kleur-succes-tekst); }
+.melding-fout { background: var(--kleur-fout); color: var(--kleur-fout-tekst); }
+.melding-info { background: var(--kleur-info); color: var(--kleur-info-tekst); }
+.veldfout { color: var(--kleur-fout-tekst); margin: 4px 0 0; font-size: 0.9rem; }
+.leeg { color: var(--kleur-grijs); font-style: italic; }
+
+/* ---------- Formulieren ---------- */
+.formulier { max-width: 480px; background: var(--kleur-wit); padding: 20px; border-radius: var(--radius); border: 1px solid var(--kleur-rand); }
+.formulier label { display: block; margin-top: 12px; font-weight: 600; }
+.formulier input, .formulier select { width: 100%; }
+.formulier .knop { margin-top: 16px; }
+.formulier fieldset { margin-top: 16px; border: 1px solid var(--kleur-rand); border-radius: var(--radius); }
+
+input, select {
+    padding: 8px 10px;
+    border: 1px solid #b9c3bf;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: var(--kleur-wit);
+}
+
+.punten-velden { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.punten-velden label { margin-top: 0; }
+.knoppen { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.knoppen .knop { margin-top: 16px; }
+.klein-veld { width: 80px; }
+.verborgen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.filter, .koppel-formulier {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+    background: var(--kleur-wit); padding: 16px; border-radius: var(--radius); border: 1px solid var(--kleur-rand); margin-bottom: 20px;
+}
+.filter label, .koppel-formulier label { display: block; font-weight: 600; }
+.filter-knoppen { display: flex; gap: 8px; }
+
+/* ---------- Kaarten met toernooien ---------- */
+.kaarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.kaart { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px; }
+.kaart h2 { margin: 0 0 8px; font-size: 1.2rem; }
+.kaart p { margin: 4px 0; }
+.kaart .knop { margin-top: 12px; }
+
+/* ---------- Blokken, gegevens en tabs ---------- */
+.blok { background: var(--kleur-wit); border: 1px solid var(--kleur-rand); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px; }
+.blok h2, .blok h3 { margin-top: 0; }
+.gegevens { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; background: var(--kleur-wit); padding: 16px 20px; border-radius: var(--radius); border: 1px solid var(--kleur-rand); }
+.gegevens dt { font-weight: 600; }
+.gegevens dd { margin: 0; }
+
+.titel-balk { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.titel-balk h1, .titel-balk h2 { margin: 0; }
+
+.kruimelpad { margin: 0 0 8px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 2px solid var(--kleur-rand); margin-bottom: 20px; }
+.tabs a { padding: 8px 14px; text-decoration: none; border-radius: var(--radius) var(--radius) 0 0; }
+.tabs a.actief { background: var(--kleur-primair); color: var(--kleur-wit); }
+
+/* ---------- Tabellen ---------- */
+.tabel-wrapper { overflow-x: auto; margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; background: var(--kleur-wit); }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--kleur-rand); vertical-align: middle; }
+th { background: #eef2f0; white-space: nowrap; }
+tr.mijn-wedstrijd { background: #fff6dd; font-weight: 600; }
+.acties { white-space: nowrap; }
+.acties > * { margin-right: 10px; }
+
+.label { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.label-aangemeld { background: #fff1cc; color: #7a5500; }
+.label-goedgekeurd { background: var(--kleur-succes); color: var(--kleur-succes-tekst); }
+.label-vol { background: var(--kleur-fout); color: var(--kleur-fout-tekst); }
+
+.deelnemers { columns: 2; margin: 0; }
+
+/* ---------- Kleine schermen (telefoon) ---------- */
+@media (max-width: 600px) {
+    .header-inhoud { flex-direction: column; align-items: flex-start; }
+    .formulier { padding: 16px; }
+    .filter > div, .koppel-formulier > div { width: 100%; }
+    .filter select, .filter input, .koppel-formulier select, .koppel-formulier input { width: 100%; }
+    .gegevens { grid-template-columns: 1fr; }
+    .gegevens dd { margin-bottom: 8px; }
+    .deelnemers { columns: 1; }
+    th, td { padding: 8px; }
+}

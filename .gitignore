@@ -1,0 +1,8 @@
+# Eigen databasegegevens niet op GitHub zetten
+includes/config.php
+
+# Editor- en systeembestanden
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
