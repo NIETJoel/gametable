@@ -1,6 +1,6 @@
 <?php
 // Toernooipagina: informatie, inschrijven (FE04/FE05), deelnemers,
-// (rondes en stand volgen later).
+// en gepubliceerde rondes (FE12).
 require_once __DIR__ . '/includes/init.php';
 
 $toernooi  = vereis_toernooi(get_getal('id'));
@@ -16,6 +16,7 @@ if ($gebruiker !== null) {
 }
 
 $deelnemers = haal_goedgekeurde_deelnemers((int) $toernooi['id']);
+$rondes     = haal_rondes((int) $toernooi['id'], true); // FE12: alleen gepubliceerde rondes
 
 $paginatitel = $toernooi['naam'];
 require __DIR__ . '/includes/header.php';
@@ -75,6 +76,34 @@ require __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
         </ol>
     <?php endif; ?>
+</section>
+
+<section class="blok">
+    <h2>Rondes</h2>
+    <?php if (!$rondes): ?>
+        <p class="leeg">Er zijn nog geen rondes gepubliceerd.</p>
+    <?php endif; ?>
+    <?php foreach ($rondes as $ronde): ?>
+        <h3>Ronde <?= (int) $ronde['nummer'] ?></h3>
+        <div class="tabel-wrapper">
+            <table>
+                <thead>
+                <tr><th>Tafel</th><th>Speler 1</th><th>Speler 2</th><th>Uitslag</th></tr>
+                </thead>
+                <tbody>
+                <?php foreach (haal_wedstrijden((int) $ronde['id']) as $wedstrijd): ?>
+                    <?php $isMijnWedstrijd = $gebruiker !== null && in_array($gebruiker['id'], [$wedstrijd['speler1_id'], $wedstrijd['speler2_id']]); ?>
+                    <tr class="<?= $isMijnWedstrijd ? 'mijn-wedstrijd' : '' ?>">
+                        <td><?= (int) $wedstrijd['tafelnummer'] ?></td>
+                        <td><?= e($wedstrijd['speler1_naam']) ?></td>
+                        <td><?= e($wedstrijd['speler2_naam']) ?></td>
+                        <td><?= e(uitslag_tekst($wedstrijd)) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endforeach; ?>
 </section>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
