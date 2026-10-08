@@ -1,8 +1,9 @@
 <?php
 // Submenu bovenaan de beheerpagina's van één toernooi.
-// Verwacht $toernooi en $actieveTab (bijv. 'deelnemers').
+// Verwacht $toernooi en $actieveTab ('deelnemers' of 'rondes').
 $tabs = [
     'deelnemers' => ['Deelnemers', 'beheer/deelnemers.php?toernooi_id=' . $toernooi['id']],
+    'rondes'     => ['Rondes', 'beheer/rondes.php?toernooi_id=' . $toernooi['id']],
 ];
 ?>
 <p class="kruimelpad"><a href="<?= e(url('beheer/toernooien.php')) ?>">&larr; Alle toernooien</a></p>

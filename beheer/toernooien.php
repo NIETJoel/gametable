@@ -42,6 +42,7 @@ require __DIR__ . '/../includes/header.php';
                     <td><?= e($toernooi['status']) ?></td>
                     <td class="acties">
                         <a href="<?= e(url('beheer/deelnemers.php?toernooi_id=' . $toernooi['id'])) ?>">Deelnemers</a>
+                        <a href="<?= e(url('beheer/rondes.php?toernooi_id=' . $toernooi['id'])) ?>">Rondes</a>
                         <a href="<?= e(url('beheer/toernooi_formulier.php?id=' . $toernooi['id'])) ?>">Wijzigen</a>
                         <form method="post" action="<?= e(url('beheer/toernooi_verwijderen.php')) ?>" class="inline-form"
                               onsubmit="return confirm('Weet je zeker dat je dit toernooi met alle inschrijvingen, rondes en uitslagen wilt verwijderen?');">
