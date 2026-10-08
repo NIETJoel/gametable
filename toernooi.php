@@ -38,7 +38,7 @@ require __DIR__ . '/includes/header.php';
 <section class="blok">
     <h2>Inschrijven</h2>
     <?php if ($gebruiker !== null && $gebruiker['rol'] === 'toernooileider'): ?>
-        <p>Je bent toernooileider. Toernooileiders kunnen zich niet inschrijven.</p>
+        <p>Je bent toernooileider. <a href="<?= e(url('beheer/deelnemers.php?toernooi_id=' . $toernooi['id'])) ?>">Beheer dit toernooi</a>.</p>
     <?php elseif ($mijnInschrijving !== null): ?>
         <div class="melding melding-succes">
             Je bent ingeschreven. Status: <strong><?= e($mijnInschrijving['status']) ?></strong>
