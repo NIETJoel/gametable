@@ -20,7 +20,9 @@ $ingelogd = huidige_gebruiker();
                 <a href="<?= e(url('inloggen.php')) ?>">Inloggen</a>
                 <a href="<?= e(url('registreren.php')) ?>">Registreren</a>
             <?php else: ?>
-                <?php if ($ingelogd['rol'] === 'speler'): ?>
+                <?php if ($ingelogd['rol'] === 'toernooileider'): ?>
+                    <a href="<?= e(url('beheer/toernooien.php')) ?>">Beheer</a>
+                <?php else: ?>
                     <a href="<?= e(url('mijn_toernooien.php')) ?>">Mijn toernooien</a>
                 <?php endif; ?>
                 <a href="<?= e(url('profiel.php')) ?>">Profiel (<?= e($ingelogd['spelersnaam']) ?>)</a>
