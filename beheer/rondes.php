@@ -1,5 +1,5 @@
 <?php
-// FE09 / T19 – Rondes van een toernooi bekijken en een nieuwe ronde starten.
+// FE09 / FE14 / T19 – Rondes van een toernooi bekijken en een nieuwe ronde starten. Toont ook de stand.
 require_once __DIR__ . '/../includes/init.php';
 vereis_rol('toernooileider');
 
@@ -26,6 +26,7 @@ if (is_post()) {
 }
 
 $rondes = haal_rondes((int) $toernooi['id'], false);
+$stand  = bereken_stand($toernooi);
 
 $paginatitel = 'Rondes - ' . $toernooi['naam'];
 $actieveTab  = 'rondes';
@@ -67,5 +68,9 @@ require __DIR__ . '/../includes/beheer_menu.php';
         </table>
     </div>
 <?php endif; ?>
+
+<h2>Stand</h2>
+<p>Puntensysteem: winst <?= (int) $toernooi['punten_winst'] ?>, gelijk <?= (int) $toernooi['punten_gelijk'] ?>, verlies <?= (int) $toernooi['punten_verlies'] ?>.</p>
+<?php require __DIR__ . '/../includes/stand_tabel.php'; ?>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

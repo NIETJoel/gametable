@@ -1,6 +1,6 @@
 <?php
 // Toernooipagina: informatie, inschrijven (FE04/FE05), deelnemers,
-// en gepubliceerde rondes (FE12).
+// gepubliceerde rondes (FE12) en de stand (FE14).
 require_once __DIR__ . '/includes/init.php';
 
 $toernooi  = vereis_toernooi(get_getal('id'));
@@ -17,6 +17,7 @@ if ($gebruiker !== null) {
 
 $deelnemers = haal_goedgekeurde_deelnemers((int) $toernooi['id']);
 $rondes     = haal_rondes((int) $toernooi['id'], true); // FE12: alleen gepubliceerde rondes
+$stand      = bereken_stand($toernooi);
 
 $paginatitel = $toernooi['naam'];
 require __DIR__ . '/includes/header.php';
@@ -104,6 +105,11 @@ require __DIR__ . '/includes/header.php';
             </table>
         </div>
     <?php endforeach; ?>
+</section>
+
+<section class="blok">
+    <h2>Stand</h2>
+    <?php require __DIR__ . '/includes/stand_tabel.php'; ?>
 </section>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
