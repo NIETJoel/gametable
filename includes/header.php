@@ -20,6 +20,9 @@ $ingelogd = huidige_gebruiker();
                 <a href="<?= e(url('inloggen.php')) ?>">Inloggen</a>
                 <a href="<?= e(url('registreren.php')) ?>">Registreren</a>
             <?php else: ?>
+                <?php if ($ingelogd['rol'] === 'speler'): ?>
+                    <a href="<?= e(url('mijn_toernooien.php')) ?>">Mijn toernooien</a>
+                <?php endif; ?>
                 <a href="<?= e(url('profiel.php')) ?>">Profiel (<?= e($ingelogd['spelersnaam']) ?>)</a>
                 <form method="post" action="<?= e(url('uitloggen.php')) ?>" class="inline-form">
                     <?= csrf_veld() ?>

@@ -20,6 +20,7 @@ session_start();
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/functies.php';
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/toernooi_functies.php';
 
 // Output eerst bufferen, zodat bij een fout een nette foutpagina getoond kan worden.
 ob_start();

@@ -26,8 +26,8 @@ if (is_post()) {
             log_in((int) $gebruiker['id']);
             zet_melding('succes', 'Je bent ingelogd.');
 
-            // Na inloggen komt de gebruiker in zijn eigen omgeving terecht
-            doorsturen('profiel.php');
+            // Elke rol komt in zijn eigen omgeving terecht
+            doorsturen($gebruiker['rol'] === 'toernooileider' ? 'profiel.php' : 'mijn_toernooien.php');
         }
 
         // Zelfde melding bij onbekend e-mailadres en fout wachtwoord, zodat niemand kan raden welke accounts bestaan
