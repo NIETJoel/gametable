@@ -3,6 +3,7 @@
 // - spelers aan elkaar en aan een tafel koppelen (FE09 / T20)
 // - dubbele indeling in dezelfde ronde blokkeren (FE10 / TE-03 / T21)
 // - ronde publiceren (FE11 / T22)
+// - uitslagen invoeren en wijzigen (FE13 / T23)
 require_once __DIR__ . '/../includes/init.php';
 vereis_rol('toernooileider');
 
@@ -25,6 +26,8 @@ if (is_post()) {
         verwijder_wedstrijd($ronde);
     } elseif ($actie === 'publiceren') {
         publiceer_ronde($ronde);
+    } elseif ($actie === 'uitslag') {
+        sla_uitslag_op($ronde);
     } else {
         zet_melding('fout', 'Onbekende actie.');
     }
@@ -129,6 +132,26 @@ function publiceer_ronde(array $ronde): void
     zet_melding('succes', 'Ronde ' . $ronde['nummer'] . ' is gepubliceerd. Spelers kunnen de indeling nu zien.');
 }
 
+function sla_uitslag_op(array $ronde): void
+{
+    if (!$ronde['gepubliceerd']) {
+        zet_melding('fout', 'Publiceer de ronde eerst. Daarna kun je uitslagen invoeren.');
+        return;
+    }
+
+    $uitslag = post_tekst('uitslag');
+    if (!in_array($uitslag, ['speler1', 'speler2', 'gelijk', ''], true)) {
+        zet_melding('fout', 'Kies een geldige uitslag.');
+        return;
+    }
+
+    // Lege keuze = "nog niet gespeeld" (NULL). Alleen een wedstrijd uit DEZE ronde.
+    $stmt = db()->prepare('UPDATE wedstrijden SET uitslag = ? WHERE id = ? AND ronde_id = ?');
+    $stmt->execute([$uitslag === '' ? null : $uitslag, post_getal('wedstrijd_id'), $ronde['id']]);
+
+    zet_melding('succes', 'De uitslag is opgeslagen. De stand is bijgewerkt.');
+}
+
 // ---------- Gegevens voor het scherm ----------
 
 $wedstrijden = haal_wedstrijden((int) $ronde['id']);
@@ -218,16 +241,30 @@ require __DIR__ . '/../includes/beheer_menu.php';
                         <td><?= e($wedstrijd['speler1_naam']) ?></td>
                         <td><?= e($wedstrijd['speler2_naam']) ?></td>
                         <td>
-                            <?php if ($ronde['gepubliceerd']): ?>
-                                <?= e(uitslag_tekst($wedstrijd)) ?>
-                            <?php else: ?>
-                                <form method="post" class="inline-form">
-                                    <?= csrf_veld() ?>
-                                    <input type="hidden" name="wedstrijd_id" value="<?= (int) $wedstrijd['id'] ?>">
+                            <form method="post" class="inline-form">
+                                <?= csrf_veld() ?>
+                                <input type="hidden" name="wedstrijd_id" value="<?= (int) $wedstrijd['id'] ?>">
+                                <?php if ($ronde['gepubliceerd']): ?>
+                                    <input type="hidden" name="actie" value="uitslag">
+                                    <label class="verborgen" for="uitslag-<?= (int) $wedstrijd['id'] ?>">Uitslag</label>
+                                    <select id="uitslag-<?= (int) $wedstrijd['id'] ?>" name="uitslag">
+                                        <?php
+                                        $keuzes = [
+                                            ''        => 'Nog niet gespeeld',
+                                            'speler1' => $wedstrijd['speler1_naam'] . ' wint',
+                                            'gelijk'  => 'Gelijkspel',
+                                            'speler2' => $wedstrijd['speler2_naam'] . ' wint',
+                                        ];
+                                        foreach ($keuzes as $waarde => $tekst): ?>
+                                            <option value="<?= e($waarde) ?>" <?= (string) $wedstrijd['uitslag'] === $waarde ? 'selected' : '' ?>><?= e($tekst) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="submit" class="knop knop-klein">Opslaan</button>
+                                <?php else: ?>
                                     <input type="hidden" name="actie" value="verwijderen">
                                     <button type="submit" class="link-knop link-gevaar">Verwijderen</button>
-                                </form>
-                            <?php endif; ?>
+                                <?php endif; ?>
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -237,6 +274,6 @@ require __DIR__ . '/../includes/beheer_menu.php';
     <?php endif; ?>
 </section>
 
-<p><a href="<?= e(url('beheer/rondes.php?toernooi_id=' . $toernooi['id'])) ?>">&larr; Terug naar rondes</a></p>
+<p><a href="<?= e(url('beheer/rondes.php?toernooi_id=' . $toernooi['id'])) ?>">&larr; Terug naar rondes en stand</a></p>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
